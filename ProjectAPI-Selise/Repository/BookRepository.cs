@@ -19,8 +19,8 @@ namespace ProjectAPI_Selise.Repository
         public async Task<bool> AddBook(BookModel bookModel)
         {
 
-           await _bookContext.Books.AddAsync(bookModel);
-           return await _bookContext.SaveChangesAsync() > 0;
+            await _bookContext.Books.AddAsync(bookModel);
+            return await _bookContext.SaveChangesAsync() > 0;
         }
 
         public async Task<BookModel> GetBookById(int id)

@@ -21,18 +21,46 @@ namespace ProjectAPI_Selise.Controllers
         }
 
         [HttpPost("addbook")]
-        public async Task<IActionResult> AddBook(BookModel bookModel)
+        public async Task<IActionResult> AddBook(BookModel[] bookList)
         {
-            if (ModelState.IsValid)
+            List<BookModel> errorBookList = new List<BookModel>();
+            
+            
+            foreach (var bookModel in bookList)
             {
-                var result = await _bookRepository.AddBook(bookModel);
-                if (result == true)
+                if (ModelState.IsValid)
                 {
-                    return Ok();
+                    var result = await _bookRepository.AddBook(bookModel);
+                    if (result != true)
+                    {
+                        errorBookList.Add(bookModel);
+                    }
                 }
+                else
+                {
+                    errorBookList.Add(bookModel);
+                }
+            }
+
+            if (errorBookList.Count < 1)
+            {
+                return Ok();
+            }
+            else
+            {
                 return BadRequest("Failed to add record.");
             }
-            throw new Exception("Failed to add record.");
+            //throw new Exception("Failed to add some records.");
+            //if (ModelState.IsValid)
+            //{
+            //    var result = await _bookRepository.AddBook(bookModel);
+            //    if (result == true)
+            //    {
+            //        return Ok();
+            //    }
+            //    return BadRequest("Failed to add record.");
+            //}
+            //throw new Exception("Failed to add record.");
         }
 
         [HttpGet("getbook/{id:int}")]
