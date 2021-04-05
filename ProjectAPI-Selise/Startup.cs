@@ -10,8 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProjectAPI_Selise.Data;
+using ProjectAPI_Selise.Models;
 using ProjectAPI_Selise.Repository;
 
 namespace ProjectAPI_Selise
@@ -33,6 +35,10 @@ namespace ProjectAPI_Selise
                 option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddIdentity<UserModel, IdentityRole>().AddEntityFrameworkStores<BookContext>();
+           
+
             services.AddCors();
         }
 
@@ -45,7 +51,7 @@ namespace ProjectAPI_Selise
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
