@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using ProjectAPI_Selise.Data;
 using ProjectAPI_Selise.Models;
@@ -34,6 +35,7 @@ namespace ProjectAPI_Selise.Repository
             return await _bookContext.SaveChangesAsync()>0;
         }
 
+        
         public async Task<List<BookModel>> GetAllRecords()
         {
             return await _bookContext.Books.ToListAsync();

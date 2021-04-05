@@ -12,6 +12,7 @@ namespace ProjectAPI_Selise.Repository
     public class UserRepository : IUserRepository
     {
         private readonly UserManager<UserModel> _userManager;
+        
 
         public UserRepository(UserManager<UserModel> userManager)
         {
@@ -44,5 +45,6 @@ namespace ProjectAPI_Selise.Repository
 
             return false;
         }
+
     }
 }

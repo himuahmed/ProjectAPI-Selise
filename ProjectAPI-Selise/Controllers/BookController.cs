@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using ProjectAPI_Selise.Models;
 using ProjectAPI_Selise.Repository;
 
 namespace ProjectAPI_Selise.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : ControllerBase
@@ -88,6 +90,8 @@ namespace ProjectAPI_Selise.Controllers
             throw new Exception("Couldn't delete the record.");
         }
 
+        
+        [AllowAnonymous]
         [HttpGet("getallbooks")]
         public async Task<IActionResult> GetAllBooks()
         {

@@ -9,9 +9,12 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ProjectAPI_Selise.Data;
 using ProjectAPI_Selise.Models;
 using ProjectAPI_Selise.Repository;
@@ -37,7 +40,32 @@ namespace ProjectAPI_Selise
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddIdentity<UserModel, IdentityRole>().AddEntityFrameworkStores<BookContext>();
-           
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>
+            {
+                option.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey =
+                        new SymmetricSecurityKey(
+                            Encoding.ASCII.GetBytes(Configuration.GetSection("AuthSetting:tokenKey").Value)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+
+                };
+            });
+
+            services.Configure<IdentityOptions>(option =>
+            {
+                option.Password.RequireDigit = false;
+                option.Password.RequireUppercase = false;
+                option.Password.RequiredLength = 6;
+                option.Password.RequireLowercase = false;
+                option.Password.RequireNonAlphanumeric = false;
+                option.Password.RequiredUniqueChars = 0;
+                option.SignIn.RequireConfirmedEmail = true;
+
+            });
 
             services.AddCors();
         }
@@ -53,7 +81,6 @@ namespace ProjectAPI_Selise
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseRouting();
-
             app.UseAuthorization();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
