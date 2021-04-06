@@ -48,10 +48,12 @@ namespace ProjectAPI_Selise.Controllers
                 return BadRequest("User already exists.");
 
             var reg = await _userRepository.register(userRegistrationModel);
-            if (reg == true)
-                return Ok("Signup successful");
+            if (reg != true)
+                return BadRequest("Couldn't sign up.");
 
-            return BadRequest("Couldn't sign up.");
+            return Ok(new {userRegistrationModel.Name, userRegistrationModel.Email});
+
+            
         }
 
         [HttpPost("login")]

@@ -10,7 +10,7 @@ using ProjectAPI_Selise.Repository;
 
 namespace ProjectAPI_Selise.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : ControllerBase
@@ -65,6 +65,7 @@ namespace ProjectAPI_Selise.Controllers
             //throw new Exception("Failed to add record.");
         }
 
+        
         [HttpGet("getbook/{id:int}")]
         public async Task<IActionResult> GetBookDetails(int id)
         {
@@ -91,7 +92,6 @@ namespace ProjectAPI_Selise.Controllers
         }
 
         
-        [AllowAnonymous]
         [HttpGet("getallbooks")]
         public async Task<IActionResult> GetAllBooks()
         {
