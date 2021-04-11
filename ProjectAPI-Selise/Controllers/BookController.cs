@@ -46,7 +46,7 @@ namespace ProjectAPI_Selise.Controllers
 
             if (errorBookList.Count < 1)
             {
-                return Ok();
+                return Ok(bookList);
             }
             else
             {
@@ -112,7 +112,7 @@ namespace ProjectAPI_Selise.Controllers
                 var isUpdated = await _bookRepository.EditBook(bookModel, id);
                 if (isUpdated)
                 {
-                    return Ok();
+                    return Ok(bookModel);
                 }
                 throw new Exception("Failed to update info.");
             }
